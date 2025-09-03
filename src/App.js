@@ -1,25 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import { StackHandler, StackProvider, StackTheme } from "@stackframe/react";
+import { Suspense } from "react";
+import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
+import { stackClientApp } from "./stack";
+import MyApp from './MyApp';
 
-function App() {
+function HandlerRoutes() {
+  const location = useLocation();
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <StackHandler app={stackClientApp} location={location.pathname} fullPage />
   );
 }
 
-export default App;
+export default function App() {
+  return (
+    <Suspense fallback={null}>
+      <BrowserRouter>
+        <StackProvider app={stackClientApp}>
+          <StackTheme>
+            <Routes>
+              <Route path="/handler/*" element={<HandlerRoutes />} />
+              <Route path="/" element={<MyApp/>} />
+            </Routes>
+          </StackTheme>
+        </StackProvider>
+      </BrowserRouter>
+    </Suspense>
+  );
+}
