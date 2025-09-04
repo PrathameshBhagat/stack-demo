@@ -15,3 +15,4 @@ jobs:
         username: if0_39720180
         password: ${{ secrets.PASS }}
         server-dir : /htdocs/
+        
